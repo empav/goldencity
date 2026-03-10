@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowRight, FiUser, FiClock } from 'react-icons/fi';
@@ -15,8 +15,24 @@ import {
 import { SiEthereum } from 'react-icons/si';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
+const heroImages = [
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80',
+  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80',
+  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80',
+  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=80',
+];
+
 function Home() {
   const [openSections, setOpenSections] = useState({});
+  const [currentHeroImage, setCurrentHeroImage] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const featuredProperties = [
     {
@@ -234,11 +250,18 @@ function Home() {
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center justify-center">
         <div className="absolute inset-0 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
-            alt="Hero background"
-            className="w-full h-full object-cover"
-          />
+          <AnimatePresence mode="sync" initial={false}>
+            <motion.img
+              key={heroImages[currentHeroImage]}
+              src={heroImages[currentHeroImage]}
+              alt="Hero background"
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8, ease: 'easeInOut' }}
+            />
+          </AnimatePresence>
           <div className="absolute inset-0 bg-black bg-opacity-50" />
         </div>
 
