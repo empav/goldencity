@@ -46,7 +46,8 @@ function Navbar() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center gap-4 md:hidden">
+            <ThemeToggle />
             <button
               type="button"
               className="text-secondary-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400"
@@ -61,9 +62,6 @@ function Navbar() {
         {isOpen && (
           <div className="md:hidden dark:bg-gray-900">
             <div className="space-y-1 pt-2 pb-3">
-              <div className="px-3 py-2">
-                <ThemeToggle />
-              </div>
               {navigation.map((item) => (
                 <Link
                   key={item.name}
